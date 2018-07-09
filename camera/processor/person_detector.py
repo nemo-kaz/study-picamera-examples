@@ -39,6 +39,8 @@ class PersonDetector(object):
         net.setInput(blob)
         detections = net.forward()
 
+		j1 =0
+		
         for i in np.arange(0, detections.shape[2]):
             confidence = detections[0, 0, i, 2]
 
@@ -49,11 +51,14 @@ class PersonDetector(object):
             if idx != 15:
                 continue
 
+			j1 +=1;
             box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
             (startX, startY, endX, endY) = box.astype('int')
             label = '{}: {:.2f}%'.format('Person', confidence * 100)
             cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 255, 0), 2)
             y = startY - 15 if startY - 15 > 15 else startY + 15
             cv2.putText(frame, label, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+        
+        cv2.putText(frame, str(j1), (5,5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (50, 255, 50), 1)
 
         return frame
