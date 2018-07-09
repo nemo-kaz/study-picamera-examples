@@ -39,8 +39,8 @@ class PersonDetector(object):
         net.setInput(blob)
         detections = net.forward()
 
-		j1 =0
-		
+        j1 =0
+
         for i in np.arange(0, detections.shape[2]):
             confidence = detections[0, 0, i, 2]
 
@@ -51,7 +51,7 @@ class PersonDetector(object):
             if idx != 15:
                 continue
 
-			j1 +=1;
+            j1 +=1;
             box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
             (startX, startY, endX, endY) = box.astype('int')
             label = '{}: {:.2f}%'.format('Person', confidence * 100)
